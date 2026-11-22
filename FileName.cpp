@@ -2,6 +2,8 @@
 #include <vector>
 #include <string>
 #include <ctime>
+#include <thread> // sleep
+#include <chrono> // sleep
 class Monster;
 
 // Player : 플레이어 부모 클래스 (체력 마나 공포 돈 가방)
@@ -868,11 +870,29 @@ int main() {
 		p->addGold(123123); //달걀
 	}
 
+	// 스토리 시작
+	std::cout << "\n어느 날부터 마을 사람들이 하나둘 사라지기 시작했다.\n";
+	std::this_thread::sleep_for(std::chrono::seconds(1)); // 1초 쉬기
+	std::cout << "사람들은 던전 깊은 곳에 사는 '어둠의 군주' 짓이라고 수군거렸다.\n";
+	std::this_thread::sleep_for(std::chrono::seconds(1)); // 1초 쉬기
+	std::cout << a << "은(는) 횃불 하나를 들고 던전으로 들어간다...\n\n";
+	std::this_thread::sleep_for(std::chrono::seconds(1)); // 1초 쉬기
+	std::cout << "이장 : 허허, 자네 처음 보는 얼굴이군.\n";
+	std::this_thread::sleep_for(std::chrono::seconds(1)); // 1초 쉬기
+	std::cout << "이장 : 마왕을 무찌르기 전에 포션 좀 받아 가게나...\n";
+	std::this_thread::sleep_for(std::chrono::seconds(1)); // 1초 쉬기
+	p->additem("체력 포션"); // 이장이 준 포션
+	p->additem("마나 포션");
+
 
 	Stock stock;
 
 	for (int floor = 0; floor < 3; floor++) {
 		std::cout << "\n===== " << floor + 1 << "층 =====\n";
+		if (floor == 0) std::cout << "축축한 동굴. 어디선가 고블린들의 웃음소리가 들린다.\n";
+		if (floor == 1) std::cout << "차가운 공기... 바닥에 오래된 뼈들이 굴러다닌다.\n";
+		if (floor == 2) std::cout << "빛이 전혀 들지 않는다. 무언가가 나를 지켜보고 있다.\n";
+		std::this_thread::sleep_for(std::chrono::seconds(1)); // 1초 쉬기
 		makeMap();
 		stock = Stock(); // 층마다 재고 다시 채움
 
@@ -946,6 +966,10 @@ int main() {
 				else boss = new DarkLord();
 
 				std::cout << "보스가 나타났다!\n";
+				if (floor == 0) std::cout << "고블린 왕: \"감히 내 동굴에 들어오다니!\"\n";
+				if (floor == 1) std::cout << "리치: \"산 자가 여기까지 오다니... 너도 내 하인이 되어라.\"\n";
+				if (floor == 2) std::cout << "어둠의 군주: \"마을 사람들처럼 너도 어둠에 삼켜져라.\"\n";
+				std::this_thread::sleep_for(std::chrono::seconds(1)); // 1초 쉬기
 				bool win = battle(p, *boss);
 				delete boss;
 				if (win) {
@@ -966,7 +990,21 @@ int main() {
 		}
 	}
 
-	if (p->life() && p->getFear() < 100) std::cout << "던전 클리어!\n";
-	else std::cout << "GAME OVER\n";
+	if (p->life() && p->getFear() < 100) {
+		std::cout << "\n어둠의 군주가 쓰러지자 던전에 빛이 스며든다.\n";
+		std::this_thread::sleep_for(std::chrono::seconds(1)); // 1초 쉬기
+		std::cout << "갇혀 있던 마을 사람들이 하나둘 밖으로 걸어 나온다.\n";
+		std::this_thread::sleep_for(std::chrono::seconds(1)); // 1초 쉬기
+		std::cout << a << "은(는) 마을의 영웅이 되었다.\n";
+		std::this_thread::sleep_for(std::chrono::seconds(1)); // 1초 쉬기
+		std::cout << "던전 클리어!\n";
+	}
+	else {
+		std::cout << "\n" << a << "의 횃불이 꺼졌다...\n";
+		std::this_thread::sleep_for(std::chrono::seconds(1)); // 1초 쉬기
+		std::cout << "던전은 또 한 명의 모험가를 삼켰다.\n";
+		std::this_thread::sleep_for(std::chrono::seconds(1)); // 1초 쉬기
+		std::cout << "GAME OVER\n";
+	}
 	delete p;
 }
